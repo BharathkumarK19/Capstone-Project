@@ -1,0 +1,14 @@
+{
+  "terminal.integrated.profiles.windows": {
+    "PowerShell (atlas)": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell",
+      "args": ["-NoExit", "-Command", "conda activate atlas"]
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell (atlas)",
+  "python.defaultInterpreterPath": "C:\\Users\\LENOVO\\anaconda3\\envs\\atlas\\python.exe",
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "python-envs.pythonProjects": []
+}
