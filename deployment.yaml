@@ -2,10 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-app
-  labels:
-    app: flask-app
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: flask-app
@@ -16,22 +14,25 @@ spec:
     spec:
       containers:
         - name: flask-app
-          image: 721380728365.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
-          imagePullPolicy: Always
+          image: 721380728365.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest  # replace with your ECR URI
           ports:
             - containerPort: 5000
-      imagePullSecrets:
-        - name: ecr-secret
+          env:
+            - name: CAPSTONE_TEST
+              valueFrom:
+                secretKeyRef:
+                  name: capstone-secret
+                  key: CAPSTONE_TEST
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: flask-app-service
 spec:
-  type: LoadBalancer
   selector:
     app: flask-app
   ports:
     - protocol: TCP
       port: 80
       targetPort: 5000
+  type: LoadBalancer
