@@ -5,7 +5,7 @@ metadata:
   labels:
     app: flask-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: flask-app
@@ -15,24 +15,13 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: flask-app
-        image: 020866158197.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
-        ports:
-        - containerPort: 5000
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "1"
-        env:
-        - name: CAPSTONE_TEST
-          valueFrom:
-            secretKeyRef:
-              name: capstone-secret
-              key: CAPSTONE_TEST
-
+        - name: flask-app
+          image: 721380728365.dkr.ecr.us-east-1.amazonaws.com/flask-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+      imagePullSecrets:
+        - name: ecr-secret
 ---
 apiVersion: v1
 kind: Service
@@ -43,7 +32,6 @@ spec:
   selector:
     app: flask-app
   ports:
-    - name: http
-      protocol: TCP
-      port: 5000
+    - protocol: TCP
+      port: 80
       targetPort: 5000
